@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Quiz {
+  id           Int           @id @default(autoincrement())
+  title        String        @db.VarChar(255)
+  description  String?       @db.Text
+  firstPage    String?       @db.Text
+  finalPage    String?       @db.Text
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  previewImage String?       @db.VarChar(255) // Новое поле для URL изображения превью
+  questions    Question[]
+  results      UserResult[]
+  categoryId   Int?
+  category     Category?     @relation(fields: [categoryId], references: [id])
+  UserSession  UserSession[]
+}
+
+model Question {
+  id      Int      @id @default(autoincrement())
+  quizId  Int
+  quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  text    String   @db.Text
+  image   String?  @db.VarChar(255) // URL или путь к изображению
+  order   Int? // Порядок вопроса в квизе
+  answers Answer[]
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  text       String   @db.VarChar(255)
+  isCorrect  Boolean
+  points     Int
+}
+
+model User {
+  id        Int           @id @default(autoincrement())
+  uuid      String?       @unique
+  name      String
+  email     String        @unique
+  createdAt DateTime      @default(now())
+  sessions  UserSession[]
+  results   UserResult[]
+}
+
+model UserSession {
+  id                   Int     @id @default(autoincrement())
+  quizId               Int? // Опционально для первого этапа
+  userId               String? // Строковый UUID вместо числового ID
+  sessionId            String? // Уникальный идентификатор сессии
+  currentQuestionIndex Int     @default(0)
+  correctAnswersCount  Int     @default(0)
+  totalPoints          Int     @default(0)
+  answers              Json    @default("[]")
+  browserInfo          Json
+  user                 User?   @relation(fields: [userId], references: [uuid], onDelete: SetNull)
+  quiz                 Quiz?   @relation(fields: [quizId], references: [id], onDelete: SetNull)
+}
+
+model UserResult {
+  id        Int      @id @default(autoincrement())
+  quizId    Int? // Опционально для согласованности
+  userId    String? // Строковый UUID вместо числового ID
+  sessionId String?
+  score     Int
+  answers   Json
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [uuid], onDelete: SetNull)
+  quiz      Quiz?    @relation(fields: [quizId], references: [id], onDelete: SetNull)
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id      Int    @id @default(autoincrement())
+  name    String @db.VarChar(100)
+  quizzes Quiz[]
+}
