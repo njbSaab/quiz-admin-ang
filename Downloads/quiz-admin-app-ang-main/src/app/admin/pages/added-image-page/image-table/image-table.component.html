@@ -1,0 +1,161 @@
+<div
+  class="overflow-x-auto rounded-box border-primary border-primary-content/5 bg-base-100 w-full pt-[30px]"
+>
+  <table class="table mb-[70px]">
+    <thead>
+      <tr class="flex items-center justify-start gap-4 w-full">
+        <th class="text-indigo-300">#</th>
+        <th class="w-[40%]">Изображение</th>
+        <th>Источник</th>
+      </tr>
+    </thead>
+    <tbody class="visible">
+      <tr
+        *ngFor="let image of images; index as i"
+        class="flex items-center justify-start gap-4 w-full"
+      >
+        <td class="text-indigo-300 visible">{{ i + 1 }}</td>
+        <td class="visible flex-1">
+          <div class="img-hover">
+            <div class="img-wrapp flex items-center gap-3">
+              <a [href]="getImageUrl(image)" class="zoom" target="_blank">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37m-.5-2.345V10H7.155V9H9.04V7.116h1V9h1.884v1H10.04v1.885z"
+                  />
+                </svg>
+              </a>
+              <img
+                [src]="getImageUrl(image)"
+                alt="Uploaded Image"
+                class="max-h-16"
+              />
+            </div>
+          </div>
+        </td>
+        <td class="visible flex items-center justify-between gap-2">
+          <span
+            class="copy btn btn-ghost btn-circle"
+            (click)="copyImageUrl(image, i)"
+            *ngIf="!copiedStates[i]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M9.116 17q-.691 0-1.153-.462T7.5 15.385V4.615q0-.69.463-1.153T9.116 3h7.769q.69 0 1.153.462t.462 1.153v10.77q0 .69-.462 1.152T16.884 17zm-3 3q-.691 0-1.153-.462T4.5 18.385V6.615h1v11.77q0 .23.192.423t.423.192h8.77v1z"
+              />
+            </svg>
+          </span>
+          <span class="copy-success" *ngIf="copiedStates[i]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+            >
+              <g
+                fill="none"
+                stroke="#1b8a1b"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              >
+                <path
+                  fill="#1b8a1b"
+                  fill-opacity="0"
+                  d="M3 12c0 -4.97 4.03 -9 9 -9c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9Z"
+                >
+                  <animate
+                    fill="freeze"
+                    attributeName="fill-opacity"
+                    dur="0.15s"
+                    values="0;0.3"
+                  />
+                </path>
+                <path
+                  stroke-dasharray="14"
+                  stroke-dashoffset="14"
+                  d="M8 12l3 3l5 -5"
+                >
+                  <animate
+                    fill="freeze"
+                    attributeName="stroke-dashoffset"
+                    begin="0.15s"
+                    dur="0.2s"
+                    values="14;0"
+                  />
+                </path>
+              </g>
+            </svg>
+          </span>
+          <p class="truncate max-w-xs">{{ getImageUrl(image) }}</p>
+          <button
+            class="btn bg-white hover:btn-error btn-circle hover:text-white"
+            title="Удалить изображение"
+            (click)="deleteImage(image, i)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12l1.41 1.41L13.41 14l2.12 2.12l-1.41 1.41L12 15.41l-2.12 2.12l-1.41-1.41L10.59 14zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+            </svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="successMessage"
+    class="alert alert-success mb-4 relative flex justify-between mt-4"
+  >
+    <b>{{ successMessage }}</b>
+    <span class="close" (click)="clearMessages()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="36"
+        height="36"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m3.59-13L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
+        />
+      </svg>
+    </span>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-error relative mt-4">
+    {{ errorMessage }}
+    <span class="close" (click)="clearMessages()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="36"
+        height="36"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m3.59-13L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
+        />
+      </svg>
+    </span>
+  </div>
+</div>

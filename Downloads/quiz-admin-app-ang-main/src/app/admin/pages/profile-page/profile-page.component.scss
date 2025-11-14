@@ -1,0 +1,12 @@
+.tracking {
+  position: relative;
+  &::after {
+    width: 100%;
+    height: 6vw;
+    content: "";
+    position: absolute;
+    background: #ffffff;
+    top: 0;
+    z-index: 11;
+  }
+}

@@ -1,0 +1,140 @@
+<div class="section quiz-all-page">
+  <div *ngIf="quizzes.length > 0; else loading">
+    <div
+      class="header-tab flex items-center justify-between px-[20px] py-[20px] my-[20px] mb-[40px] radius-30 w-fit gap-4 mx-auto tracking-wide bg-base-100 shadow-block"
+    >
+      <h2 class="title-tab text-xl font-bold text-gray-600">Quizzes</h2>
+      <p
+        class="text-right flex gap-2 items-center bg-main px-[15px] py-[5px] text-indigo-500"
+      >
+        Всего квизов:
+        <span class="font-bold text-4xl">{{ quizzes.length }}</span>
+      </p>
+    </div>
+
+    <div
+      *ngIf="successMessage"
+      class="alert alert-success mb-4 relative flex justify-between"
+    >
+      <b>{{ successMessage }}</b>
+      <span class="close" (click)="closeSuccessMessage()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="36"
+          height="36"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m3.59-13L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
+          />
+        </svg>
+      </span>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-error relative">
+      {{ errorMessage }}
+      <span class="close" (click)="closeErrorMessage()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="36"
+          height="36"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m3.59-13L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
+          />
+        </svg>
+      </span>
+    </div>
+
+    <div class="card-list lg:grid grid-cols-2 gap-[20px] px-[20px]">
+      <div
+        *ngFor="let quiz of quizzes; index as i"
+        class="card-wrapper bg-main-trans-gradient-0"
+      >
+        <div
+          class="card-wrapper-title flex items-center gap-8 justify-between mb-[8px] mx-auto w-[90%]"
+        >
+          <div class="card-title-group flex justify-between items-center">
+            <p class="number text-lg">
+              🎲
+              <span class="font-bold text-indigo-600">Квиз №{{ i + 1 }}</span>
+            </p>
+          </div>
+
+          <div class="card-date flex items-center gap-2">
+            <p class="text-xs text-gray-500">
+              Дата обновления: {{ quiz.updatedAt | date : "medium" }}
+            </p>
+
+            <button
+              class="btn btn-circle icon-cancel hover:btn-error hover:fill-white hover:text-white"
+              (click)="deleteQuiz(quiz.id)"
+              [disabled]="isLoading[quiz.id]"
+            >
+              <span
+                *ngIf="isLoading[quiz.id]"
+                class="loading loading-spinner text-error"
+              ></span>
+              <svg
+                *ngIf="!isLoading[quiz.id]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="#e54545"
+                  d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12l1.41 1.41L13.41 14l2.12 2.12l-1.41 1.41L12 15.41l-2.12 2.12l-1.41-1.41L10.59 14zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="card card-side bg-base-100 shadow-sm hover-shadow"
+          [style.opacity]="quiz.isActive ? 1 : 0.4"
+        >
+          <figure class="flex-[20%] figure">
+            <img
+              class="object-cover w-full h-full"
+              *ngIf="quiz.previewImage; else noImage"
+              [src]="quiz.previewImage"
+              alt="Quiz Image"
+            />
+            <ng-template #noImage>
+              <img src="assets/fallback.jpg" alt="Fallback image" />
+            </ng-template>
+          </figure>
+          <div class="card-body max-w-[60%]">
+            <h2 class="card-title flex justify-between items-center">
+              {{ quiz.title }}
+              <span
+                class="text-sm text-gray-400 text-nowrap cursor-pointer hover:scale-125"
+                (click)="toggleQuizActive(quiz.id, quiz.isActive)"
+              >
+                {{ quiz.isActive ? "Active: 🟢" : "Non active: 🔴" }}
+              </span>
+            </h2>
+            <p>{{ quiz.description }}</p>
+            <div class="card-actions justify-end">
+              <button
+                class="btn btn-info text-white"
+                (click)="goToQuiz(quiz.id)"
+              >
+                Перейти
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <app-loader></app-loader>
+  </ng-template>
+</div>

@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "tippy.js/dist/tippy.css";
+
+/** Arrow */
+
+.admin-page {
+  max-width: 1960px;
+}
+.alert {
+  position: fixed;
+  max-width: 500px;
+  width: 40%;
+  z-index: 1111;
+  cursor: pointer;
+  left: 30%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.alert.alert-success {
+  background-color: rgba(1, 183, 1, 0.517) !important;
+  color: rgba(1, 255, 1, 0.82) !important;
+}
+.alert.alert-error {
+  background-color: rgba(255, 0, 0, 0.498) !important;
+}
+.active-link {
+  background: linear-gradient(to right, transparent, #e0e7ff); // или твой цвет
+  border-left-color: #6366f1; // например, indigo-500
+  color: #1e40af;
+  font-weight: 600;
+}
+.shadow-block {
+  box-shadow: 0 0 20px #a5b4fc5c;
+  //   box-shadow: 0 0 20px #4e46e551;
+}
+.hover-shadow {
+  transition: all 0.3s ease-in-out;
+}
+.hover-shadow:hover {
+  box-shadow: 0 0 15px #4e46e58b;
+  scale: 1.03;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+span.btn-success {
+  background-color: rgba(1, 183, 1, 0.517) !important;
+}
+.radius-30 {
+  border-radius: 30px;
+}
+.radius-20 {
+  border-radius: 30px;
+}
+/* Кастомная тема для Tippy.js */
+.tippy-box[data-theme~="custom-theme"] {
+  background: #ffffff; /* Цвет фона из active-link */
+  color: black; /* Цвет текста из active-link */
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 0 15px #4e46e552; /* Тень из hover-shadow */
+  border-radius: 20px; /* Опционально для скругления */
+  padding: 4px 8px; /* Отступы для контента */
+  transition: all 0.2s ease-in-out; /* Плавный переход из hover-shadow */
+  backdrop-filter: blur(10px);
+}
+// .tippy-box[data-theme~="custom-theme"] {
+//   background: linear-gradient(
+//     to right,
+//     #6366f1,
+//     #e0e7ff
+//   ); /* Градиент из active-link */
+//   border-left: 3px solid #6366f1; /* Цвет границы из active-link */
+//   color: white; /* Цвет текста из active-link */
+//   font-weight: 600;
+//   box-shadow: 0 0 15px #4e46e58b; /* Тень из hover-shadow */
+//   border-radius: 20px; /* Опционально для скругления */
+//   padding: 8px 12px; /* Отступы для контента */
+//   transition: all 0.2s ease-in-out; /* Плавный переход из hover-shadow */
+// }
+
+/* Стили для стрелки (если используется) */
+.tippy-box[data-theme~="custom-theme"] .tippy-arrow {
+  color: transparent; /* Цвет стрелки, чтобы соответствовать границе */
+}
+
+/* Эффект при наведении на саму подсказку (опционально) */
+.tippy-box[data-theme~="custom-theme"]:hover {
+  scale: 1.03; /* Увеличение из hover-shadow */
+}
+
+.btn.btn-ghost span {
+  margin: -1px;
+}
+.btn.btn-ghost.btn-error:hover {
+  background-color: rgba(255, 0, 0, 0.498) !important;
+}
+.btn.btn-ghost.btn-success {
+  background-color: rgba(1, 183, 1, 0.517) !important;
+}
+.btn-ghost.btn-info:hover {
+  background-color: #007efc7f !important;
+}
+span.btn-info {
+  color: white !important;
+}
+.card {
+  border-radius: 30px !important;
+  overflow: hidden;
+}
+.card-body {
+  border-radius: 0 !important;
+  gap: 4px !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+.container {
+  border-radius: 30px;
+  padding: 20px;
+}
+.content {
+  border-radius: 30px;
+  padding: 20px;
+}
+.main-bg {
+}
+.header-title {
+  margin-bottom: 10px;
+  border-radius: 0px 0px 30px 30px;
+  padding: 10px 20px;
+  .title {
+    position: relative;
+    padding-left: 10px;
+    &:after {
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 4px;
+      background: #6366f1;
+      left: 0;
+      bottom: 0;
+    }
+  }
+}
+.isLoading {
+  margin-left: 8.5rem;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.collapse {
+  border-radius: 30px !important;
+}
+[tuiWrapper][data-appearance="textfield"] {
+  transition-property: box-shadow, background;
+  transition-duration: var(--tui-duration, 300ms);
+  transition-timing-function: ease-in-out;
+  background: var(--tui-base-01);
+  color: var(--tui-text-01);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+}
+.sidebar-list {
+}
+.loading.loading-spinner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  z-index: 9999;
+}
+.added-page {
+  .ng-star-inserted label {
+    margin-bottom: 3px;
+  }
+}
+.edit-single-page {
+  .ng-star-inserted label {
+    margin-bottom: 3px;
+  }
+}
+.btn-added-question {
+  padding: 15px;
+  font-size: 20px;
+  color: black;
+  width: 100%;
+  height: 100%;
+}
+.icon-cancel:hover {
+  color: white !important;
+  fill: white !important;
+  svg {
+    fill: white !important;
+    path {
+      fill: white !important;
+    }
+  }
+}
+.label-question {
+  margin-bottom: 10px !important;
+}
+.questions-wrapper {
+  padding: 10px;
+  border-radius: 20px;
+  background: #6365f107;
+  margin-bottom: 10px;
+}
+.question-previev-card {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.label-question {
+  margin-bottom: 0 !important;
+}
+.quiz-all-page {
+  .card-title {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+  .figure {
+    height: auto;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+.question-previev-item {
+  display: grid;
+  grid-template-columns: 30% 67%;
+  gap: 4%;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}

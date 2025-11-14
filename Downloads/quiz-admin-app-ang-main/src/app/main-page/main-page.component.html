@@ -1,0 +1,64 @@
+<section
+  class="min-h-screen bg-gradient-to-r from-blue-600 via-blue-800 to-blue-900"
+>
+  <div
+    class="added-image py-[0px] px-[10px] min-h-screen flex flex-col items-center justify-center"
+  >
+    <h2 class="text-6xl font-bold mb-8 text-center text-info">Welcome</h2>
+
+    <div
+      class="content radius-30 max-w-[700px] mx-auto w-full p-100 bg-white hover-shadow"
+      [ngClass]="{ shake: shake }"
+    >
+      <form
+        [formGroup]="form"
+        class="flex flex-col gap-2 relative"
+        (ngSubmit)="onSubmit()"
+      >
+        <div
+          *ngIf="loginError"
+          class="text-red-500 text-center font-semibold mt-4 transition-opacity absolute top-[-75px] left-1/2 transform -translate-x-1/2 text-lg z-10 w-full"
+        >
+          ❌ Вы ввели неверные данные
+        </div>
+
+        <!-- Поле ввода имени -->
+        <div class="tui-form__row">
+          <tui-input formControlName="nameValue" tuiHintContent="A tooltip">
+            Login
+            <input placeholder="My login is" tuiTextfield />
+            <span class="tui-required"></span>
+          </tui-input>
+        </div>
+
+        <!-- Поле ввода пароля -->
+        <div class="tui-form__row tui-form__row_multi-fields">
+          <div class="tui-form__multi-field">
+            <tui-input-password formControlName="passwordValue">
+              Password
+              <input placeholder="*******" tuiTextfield />
+              <span class="tui-required"></span>
+            </tui-input-password>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost btn-info pr-0 w-fit mx-auto mt-4 text-lg">
+          Login
+          <span class="btn btn-soft btn-info">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill="#fff"
+                d="M6.75 1.5a.75.75 0 0 0 0 1.5h4.75A1.5 1.5 0 0 1 13 4.5v7a1.5 1.5 0 0 1-1.5 1.5H6.75a.75.75 0 0 0 0 1.5h4.75a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3zm3.03 5.97l-2.5-2.5a.75.75 0 0 0-1.06 1.06l1.22 1.22H1.75a.75.75 0 0 0 0 1.5h5.69L6.22 9.97a.75.75 0 1 0 1.06 1.06l2.5-2.5a.75.75 0 0 0 0-1.06"
+              />
+            </svg>
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

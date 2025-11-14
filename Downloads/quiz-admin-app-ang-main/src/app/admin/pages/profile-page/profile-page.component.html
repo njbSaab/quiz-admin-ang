@@ -1,0 +1,118 @@
+<section class="added-image py-[0px] px-[10px] min-h-screen">
+  <div
+    class="header-title shadow-block flex items-center justify-between w-[100%]"
+  >
+    <h1 class="title text-2xl font-bold text-indigo-500">Profile</h1>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+    >
+      <g
+        fill="none"
+        stroke="#4f45e5"
+        stroke-dasharray="28"
+        stroke-dashoffset="28"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      >
+        <path d="M4 21v-1c0 -3.31 2.69 -6 6 -6h4c3.31 0 6 2.69 6 6v1">
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            dur="0.4s"
+            values="28;0"
+          />
+        </path>
+        <path
+          d="M12 11c-2.21 0 -4 -1.79 -4 -4c0 -2.21 1.79 -4 4 -4c2.21 0 4 1.79 4 4c0 2.21 -1.79 4 -4 4Z"
+        >
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="0.4s"
+            dur="0.4s"
+            values="28;0"
+          />
+        </path>
+      </g>
+    </svg>
+  </div>
+  <div class="content radius-30 shadow-block min-h-[89dvh] flex flex-col">
+    <section class="text-gray-600 body-font relative">
+      <div
+        class="mx-auto flex px-2 md:flex-row-reverse flex-col items-center justify-evenly"
+      >
+        <div
+          class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0 flex items-center justify-center"
+        >
+          <img
+            class="object-cover object-center rounded w-full h-auto"
+            alt="hero"
+            src="https://clipart-library.com/2023/management-clipart-md.png"
+          />
+        </div>
+        <div
+          class="w-fit flex flex-col md:items-start md:text-left items-center text-center"
+        >
+          <h1
+            class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900"
+          >
+            <strong>Admin</strong>
+          </h1>
+          <p class="mb-2 leading-relaxed flex flex-col text-sm">
+            <span class="text-lg"
+              >Login: <strong>{{ login }} </strong>
+            </span>
+            <span
+              class="text-lg cursor-pointer"
+              (click)="clicked()"
+              ngxTippy
+              data-tippy-content="Click to see password"
+              data-tippy-placement="bottom"
+              data-tippy-theme="custom-theme"
+            >
+              Password:
+              <strong *ngIf="isVisible"> {{ pass }}</strong>
+              <strong *ngIf="!isVisible">********</strong>
+            </span>
+          </p>
+          <ul class="flex flex-col gap-1">
+            <li>
+              <span class="text-sm text-indigo-400 font-semibold"
+                >Функционал админа:</span
+              >
+            </li>
+            <li>
+              <strong>Edit</strong> - Изменение данных в боте: кнопки,
+              сообщения, меню.
+            </li>
+            <li><strong>Images</strong>- Добавления изображений для бота.</li>
+            <li>
+              <strong>Message</strong> - Отправка сообщений пользователям бота.
+            </li>
+            <li><strong>Users</strong>- Таблица пользователей бота.</li>
+            <li><strong>Categories</strong>- Категории пользователей бота.</li>
+            <li>
+              <strong>Predictions</strong>- Сущность предсказания для
+              пользователей бота.
+            </li>
+            <li><strong>Profile</strong>- Данные о админе.</li>
+            <li><strong>Logout</strong>- Выход из админ панели.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="tracking">
+      <div class="wrapper w-[80%] mx-auto">
+        <img
+          class="image"
+          src="https://media.proglib.io/posts/2021/12/26/e3dfa40394db086c4917912f95686c1a.png"
+          alt=""
+        />
+      </div>
+    </section>
+  </div>
+</section>

@@ -1,0 +1,105 @@
+# 1. Создать квиз (POST /api/quizzes)
+# Требуется X-Secret-Word
+curl -X POST http://localhost:4444/api/quizzes \
+-H "X-Secret-Word: TOPWINNER_TOP_QUI JWIZ_WORLD" \
+-H "Content-Type: application/json" \
+-d '{
+  "title": "Math Quiz",
+  "description": "A quiz about basic math",
+  "firstPage": "Welcome to the Math Quiz!",
+  "finalPage": "Thank you for completing the quiz!",
+  "isActive": true,
+  "questions": [
+    {
+      "text": "What is 2+2?",
+      "image": "https://example.com/image.jpg",
+      "order": 1,
+      "answers": [
+        {"text": "4", "isCorrect": true, "points": 1},
+        {"text": "22", "isCorrect": false, "points": 0}
+      ]
+    }
+  ]
+}'
+
+# 2. Получить все квизы (GET /api/quizzes)
+# Не требует X-Secret-Word
+curl -X GET http://localhost:4444/api/quizzes
+
+# 3. Получить квиз по ID (GET /api/quizzes/:id)
+# Не требует X-Secret-Word
+curl -X GET http://localhost:4444/api/quizzes/1
+
+# 4. Редактирование квиза (PATCH /api/quizzes/:id)
+# Требуется X-Secret-Word
+curl -X PATCH http://localhost:4444/api/quizzes/1 \
+-H "X-Secret-Word: TOPWINNER_TOP_QUIZWIZ_WORLD" \
+-H "Content-Type: application/json" \
+-d '{
+  "title": "Updated Math Quiz",
+  "description": "An updated quiz about advanced math",
+  "firstPage": "Welcome to the updated Math Quiz!",
+  "finalPage": "Thank you for completing the updated quiz!",
+  "isActive": true,
+  "questions": [
+    {
+      "text": "What is 3+3?",
+      "image": "https://example.com/new-image.jpg",
+      "order": 1,
+      "answers": [
+        {"text": "6", "isCorrect": true, "points": 2},
+        {"text": "33", "isCorrect": false, "points": 0}
+      ]
+    },
+    {
+      "text": "What is 5*5?",
+      "order": 2,
+      "answers": [
+        {"text": "25", "isCorrect": true, "points": 2},
+        {"text": "55", "isCorrect": false, "points": 0}
+      ]
+    }
+  ]
+}'
+
+# Частичное редактирование квиза (PATCH /api/quizzes/:id)
+curl -X PATCH http://localhost:4444/api/quizzes/1 \
+-H "X-Secret-Word: TOPWINNER_TOP_QUIZWIZ_WORLD" \
+-H "Content-Type: application/json" \
+-d '{
+  "title": "Math Quiz v2",
+  "isActive": false
+}'
+
+# 5. Отправить ответы на квиз (POST /api/quizzes/submit/:id)
+# Требуется X-Secret-Word
+curl -X POST http://localhost:4444/api/quizzes/submit/1 \
+-H "X-Secret-Word: TOPWINNER_TOP_QUIZWIZ_WORLD" \
+-H "Content-Type: application/json" \
+-d '{
+  "user": {
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+  },
+  "answers": [
+    {
+      "questionId": 1,
+      "answerId": 1
+    }
+  ]
+}'
+
+# 6. Получить статистику по квизу (GET /api/quizzes/statistics/:id)
+# Требуется X-Secret-Word
+curl -X GET http://localhost:4444/api/quizzes/statistics/1 \
+-H "X-Secret-Word: TOPWINNER_TOP_QUIZWIZ_WORLD"
+
+# 7. Удаление квиза (DELETE /api/quizzes/:id)
+# Требуется X-Secret-Word
+curl -X DELETE http://localhost:4444/api/quizzes/1 \
+-H "X-Secret-Word: TOPWINNER_TOP_QUIZWIZ_WORLD"
+
+
+curl -X DELETE http://localhost:4444/api/users 
+-H "X-Secret-Word: TOPWINNER_TOP_QUIZWIZ_WORLD"
+-H "Content-Type: application/json" \

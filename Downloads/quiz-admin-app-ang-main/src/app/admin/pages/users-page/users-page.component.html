@@ -1,0 +1,272 @@
+<section class="added-image py-[0px] px-[10px] min-h-screen">
+  <div
+    class="header-title shadow-block flex items-center justify-between w-[100%]"
+  >
+    <h1 class="title text-2xl font-bold text-indigo-500">Пользователи</h1>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="#4f45e5"
+        d="M12 15c-2.5 0 -3.25 0 -4 0c-0.55 0 -1 0 -1 0c0 0 1.5 0 5 0c3.5 0 5 0 5 0c0 0 -0.45 0 -1 0c-0.75 0 -1.5 0 -4 0Z"
+      >
+        <animate
+          fill="freeze"
+          attributeName="d"
+          begin="1.1s"
+          dur="0.2s"
+          values="M12 15c-2.5 0 -3.25 0 -4 0c-0.55 0 -1 0 -1 0c0 0 1.5 0 5 0c3.5 0 5 0 5 0c0 0 -0.45 0 -1 0c-0.75 0 -1.5 0 -4 0Z;M12 14c-2.5 0 -3.25 -1 -4 -1c-0.55 0 -1 0.45 -1 1c0 0.75 1.5 4 5 4c3.5 0 5 -3.25 5 -4c0 -0.55 -0.45 -1 -1 -1c-0.75 0 -1.5 1 -4 1Z"
+        />
+      </path>
+      <g
+        fill="none"
+        stroke="#4f45e5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      >
+        <path
+          stroke-dasharray="64"
+          stroke-dashoffset="64"
+          d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9"
+        >
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            dur="0.6s"
+            values="64;0"
+          />
+        </path>
+        <path stroke-dasharray="2" stroke-dashoffset="2" d="M9 9v1">
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="0.7s"
+            dur="0.2s"
+            values="2;0"
+          />
+        </path>
+        <path stroke-dasharray="2" stroke-dashoffset="2" d="M15 9v1">
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="0.9s"
+            dur="0.2s"
+            values="2;0"
+          />
+        </path>
+      </g>
+    </svg>
+  </div>
+  <div class="radius-30 shadow-block h-[90vh]">
+    <div class="content">
+      <ng-container
+        *ngIf="!isLoading && error"
+        class="alert alert-error mb-4"
+        >{{ error }}</ng-container
+      >
+
+      <div
+        *ngIf="!isLoading && users.length; else loading"
+        class="overflow-x-auto mt-4"
+      >
+        <table
+          class="table-auto w-full text-sm text-left text-gray-700 border-collapse radius-30 overflow-hidden"
+        >
+          <thead class="bg-indigo-100 text-indigo-600 font-bold">
+            <tr>
+              <th class="px-4 py-2">#</th>
+              <th class="px-4 py-2">UUID</th>
+              <th class="px-4 py-2">Email</th>
+              <th class="px-4 py-2">Имя</th>
+              <th class="px-4 py-2">Колл-во Q</th>
+              <th class="px-4 py-2">Очки</th>
+              <th class="px-4 py-2">Дата</th>
+              <th class="px-4 py-2">Язык</th>
+              <th class="px-4 py-2">ОС</th>
+              <th class="px-4 py-2">Устройство</th>
+              <th class="px-4 py-2">Зона / IP</th>
+              <th class="px-4 py-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let user of users; let i = index">
+              <!-- Основная строка пользователя -->
+              <tr
+                *ngIf="user.browserInfo !== null"
+                [ngClass]="{
+                  'bg-gray-50': i % 2 === 0,
+                  'hover:bg-indigo-50 transition': true
+                }"
+                class="relative"
+              >
+                <td class="px-4 py-2 font-medium">{{ i + 1 }}</td>
+                <td class="px-4 py-2">{{ user.uuid.slice(0, 8) || "-" }}</td>
+                <td class="px-4 py-2">{{ user.name || "-" }}</td>
+                <td class="px-4 py-2">{{ user.email || "-" }}</td>
+                <td class="px-4 py-2">{{ user.results.length || "-" }}</td>
+                <td class="px-4 py-2">
+                  {{ user.score ?? user.totalPoints ?? 0 }}
+                </td>
+                <td class="px-4 py-2">{{ user.createdAt | date : "short" }}</td>
+                <td class="px-4 py-2">{{ user.browserInfo.language }}</td>
+                <td class="px-4 py-2">{{ user.browserInfo.platform }}</td>
+                <td class="px-4 py-2">
+                  {{ user.browserInfo.screen.width }}x{{
+                    user.browserInfo.screen.height
+                  }}
+                </td>
+                <td class="px-4 py-2">
+                  {{ user.browserInfo.timezone }} <br />
+                  {{ user.browserInfo.ipAddress }}
+                </td>
+                <td class="px-4 py-2 flex items-center gap-2">
+                  <button
+                    *ngIf="user.results && user.results.length > 0"
+                    class="btn btn-outline btn-info"
+                    (click)="toggleDetailsUser(user.id)"
+                  >
+                    Детали
+                  </button>
+                  <span class="text-error text-sm" *ngIf="user.results.length === 0">
+                    нет результатов
+                  </span>
+                  <button
+                    class="btn btn-circle icon-cancel hover:btn-error hover:fill-white hover:text-white"
+                    (click)="deleteUser(user.id)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="#e54545"
+                        d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12l1.41 1.41L13.41 14l2.12 2.12l-1.41 1.41L12 15.41l-2.12 2.12l-1.41-1.41L10.59 14zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                      />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+          
+              <!-- Строка с деталями — только если selectedUser и совпадает ID -->
+              <tr
+                *ngIf="selectedUser && selectedUser.id === user.id"
+                class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100"
+              >
+                <td colspan="12" class="px-4 py-4">
+                  <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold">
+                      Детали пользователя:
+                      {{ selectedUser.name || "Анонимный" }} ({{
+                        selectedUser.uuid.slice(0, 8) || "-"
+                      }})
+                    </h3>
+                    <button
+                      class="btn btn-outline btn-error"
+                      (click)="toggleDetailsUser(user.id)"
+                    >
+                      Закрыть
+                    </button>
+                  </div>
+          
+                  <!-- Таблица результатов -->
+                  <div
+                    *ngIf="selectedUser.results && selectedUser.results.length > 0"
+                    class="overflow-x-auto"
+                  >
+                    <h4 class="font-bold mb-2">Результаты квизов:</h4>
+                    <table
+                      class="table-auto w-full text-xs text-left text-gray-700 border border-gray-300"
+                    >
+                      <thead class="bg-gray-200">
+                        <tr>
+                          <th class="px-2 py-1">Quiz ID</th>
+                          <th class="px-2 py-1">Score</th>
+                          <th class="px-2 py-1">Дата</th>
+                          <th class="px-2 py-1">Answers</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="let result of selectedUser.results; let j = index"
+                        >
+                          <td class="px-2 py-1">{{ result.quizId }}</td>
+                          <td class="px-2 py-1">{{ result.score }}</td>
+                          <td class="px-2 py-1">
+                            {{ result.createdAt | date : "short" }}
+                          </td>
+                          <td class="px-2 py-1">
+                            <table
+                              *ngIf="result.answers && result.answers.length > 0"
+                              class="w-full text-xs border border-gray-200 mt-1"
+                            >
+                              <thead class="bg-indigo-100">
+                                <tr>
+                                  <th class="px-1 py-0.5">Q ID</th>
+                                  <th class="px-1 py-0.5">Вопрос</th>
+                                  <th class="px-1 py-0.5">A ID</th>
+                                  <th class="px-1 py-0.5">Ответ</th>
+                                  <th class="px-1 py-0.5">Правильно</th>
+                                  <th class="px-1 py-0.5">Очки</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let answer of result.answers">
+                                  <td class="px-1 py-0.5 border-t">
+                                    {{ answer.questionId }}
+                                  </td>
+                                  <td class="px-1 py-0.5 border-t">
+                                    {{ answer.questionText || "-" }}
+                                  </td>
+                                  <td class="px-1 py-0.5 border-t">
+                                    {{ answer.answerId }}
+                                  </td>
+                                  <td class="px-1 py-0.5 border-t">
+                                    {{ answer.answerText || "-" }}
+                                  </td>
+                                  <td class="px-1 py-0.5 border-t">
+                                    {{ answer.isCorrect ? "Да" : "Нет" }}
+                                  </td>
+                                  <td class="px-1 py-0.5 border-t">
+                                    {{ answer.points || 0 }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <span
+                              *ngIf="!result.answers || result.answers.length === 0"
+                              class="text-gray-500"
+                            >
+                              Нет ответов
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+          
+                  <!-- Нет результатов -->
+                  <div
+                    *ngIf="!selectedUser.results || selectedUser.results.length === 0"
+                    class="text-gray-500"
+                  >
+                    Нет результатов для этого пользователя.
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #loading>
+        <app-loader></app-loader>
+      </ng-template>
+    </div>
+  </div>
+</section>
